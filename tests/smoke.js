@@ -1,0 +1,11 @@
+const puppeteer=require('/workspace/tools/node_modules/puppeteer-core');
+const http=require('http'),fs=require('fs'),path=require('path');
+const ROOT=path.join(__dirname,'..');const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml'};
+const srv=http.createServer((q,r)=>{let p=decodeURIComponent(q.url.split('?')[0]);if(p=='/')p='/index.html';const f=path.join(ROOT,p);if(!fs.existsSync(f)){r.statusCode=404;return r.end();}r.setHeader('content-type',mime[path.extname(f)]||'text/plain');r.end(fs.readFileSync(f));}).listen(8177);
+(async()=>{const b=await puppeteer.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox','--autoplay-policy=no-user-gesture-required']});
+const pg=await b.newPage();await pg.setViewport({width:1280,height:800});const errs=[];pg.on('pageerror',e=>errs.push(String(e)));pg.on('console',m=>{if(m.type()=='error')errs.push(m.text())});
+await pg.goto('http://localhost:8177/');await new Promise(r=>setTimeout(r,800));
+await pg.screenshot({path:ROOT+'/screenshots/_title.png'});
+await pg.click('#t-new');await pg.click('#t-start');await new Promise(r=>setTimeout(r,800));
+await pg.screenshot({path:ROOT+'/screenshots/_start.png'});
+console.log('errs',errs);await b.close();srv.close();})();

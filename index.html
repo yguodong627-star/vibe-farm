@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>溪谷小农场</title>
+<meta name="description" content="浏览器里的像素田园生活游戏：种田、钓鱼、挖矿、养动物、交朋友。原创美术，非商业同人作品。">
+<link rel="icon" href="favicon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div id="game-ui" class="hide">
+ <div id="hud"><div id="hud-date"></div><div id="hud-time"></div><div id="hud-money"></div><div id="hud-loc"></div><button id="hud-menu">菜单</button></div>
+ <div id="bars"><div class="bar" id="hud-hp"><div id="bar-h"></div><span>HP</span></div><div class="bar"><div id="bar-e"></div><span>体</span></div></div>
+ <div id="hud-sel"></div>
+ <div id="hotbar"></div>
+ <div id="touch"><div id="joy"><div id="knob"></div></div><div id="tbtns"><button id="btnA">使用</button><button id="btnB">互动</button><button id="btnE">吃</button><button id="btnM">菜单</button></div></div>
+</div>
+<div id="panel" class="panel hide"></div>
+<div id="dialog" class="hide"></div>
+<div id="toasts"></div>
+<div id="title">
+ <div class="tbox">
+  <h1>溪谷小农场</h1><p class="sub">种田 · 钓鱼 · 挖矿 · 养动物 · 交朋友</p>
+  <div id="t-main"><button id="t-new">新游戏</button><button id="t-cont">继续游戏</button><button id="t-imp">导入存档</button><button id="t-set">音乐：开</button></div>
+  <div id="t-newform" class="hide"><label>你的名字<input id="t-name" maxlength="8" placeholder="农夫"></label><label>农场名称<input id="t-farm" maxlength="8" placeholder="溪谷"></label><button id="t-start">开始</button><button id="t-back">返回</button></div>
+  <p class="foot">非商业同人致敬作品 · 玩法灵感来自《星露谷物语》· 美术/音乐/角色/文本均为原创</p>
+ </div>
+</div>
+<script src="js/data.js"></script><script src="js/art.js"></script><script src="js/world.js"></script><script src="js/game.js"></script><script src="js/npc.js"></script><script src="js/ui.js"></script><script src="js/render.js"></script><script src="js/audio.js"></script><script src="js/main.js"></script>
+</body>
+</html>

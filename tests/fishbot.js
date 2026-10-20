@@ -1,0 +1,7 @@
+// 用简单控制器（鱼在条上方就按住）测试钓鱼小游戏可玩性
+const puppeteer=require('/workspace/tools/node_modules/puppeteer-core');const http=require('http'),fs=require('fs'),path=require('path');const ROOT=path.join(__dirname,'..');
+const srv=http.createServer((q,r)=>{let p=q.url.split('?')[0];if(p=='/')p='/index.html';const f=path.join(ROOT,p);if(!fs.existsSync(f)){r.statusCode=404;return r.end();}r.setHeader('content-type',p.endsWith('.js')?'text/javascript':p.endsWith('.css')?'text/css':'text/html');r.end(fs.readFileSync(f));}).listen(8180);
+(async()=>{const b=await puppeteer.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']});const pg=await b.newPage();await pg.goto('http://localhost:8180/');await pg.click('#t-new');await pg.click('#t-start');
+const res=await pg.evaluate(()=>{G.UI.closeAll();const out={};for(const d of [20,50,80,95]){let win=0;for(let k=0;k<40;k++){G.enterMap('town',33,13);G.P.dir=1;G.S.sel=4;G.S.energy=999;G.doUse();G.FISHING.t=0;G.updateFishing(.01);G.doUse();G.updateFishing(.01);if(!G.FISHING||G.FISHING.phase!='game'){k--;continue;}G.FISHING.diff=d;
+ const before=Object.values(G.S.fish).reduce((a,b)=>a+b,0);for(let i=0;i<2000&&G.FISHING;i++){const F=G.FISHING;INPUT.aHeld=F.fy<F.bar+F.size*.5+(F.bv*.15);G.updateFishing(1/60);}INPUT.aHeld=false;if(Object.values(G.S.fish).reduce((a,b)=>a+b,0)>before)win++;}out[d]=win/40;}return out;});
+console.log(res);await b.close();srv.close();})();
